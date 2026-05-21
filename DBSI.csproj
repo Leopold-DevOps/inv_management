@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>DBSI</RootNamespace>
+    <AssemblyName>DBSI</AssemblyName>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <!-- Used by the publish script to make a single, self-contained .exe -->
+    <RuntimeIdentifier Condition="'$(PublishSingleFile)' == 'true'">win-x64</RuntimeIdentifier>
+  </PropertyGroup>
+
+</Project>
