@@ -7,13 +7,15 @@ This is a **UI/UX prototype**: the layout, styling, and screens are real, but
 the data is sample data and the buttons don't save anything yet. The goal is to
 nail the look and feel first.
 
-## Screens
+## Screens (UI in French)
 
-- **Home** — dashboard with stat cards, recent scans, a weekly activity chart,
-  and low-stock alerts.
-- **Clients** — searchable list of clients with status and activity.
-- **Inventory** — searchable item list with SKU, barcode, quantity, location,
-  and stock status.
+- **Accueil** — dashboard with stat cards, "Inventaires en cours" with progress
+  bars, a weekly scans chart, and the latest scans.
+- **Clients** — roster of clients (derived from inventory records) with contact,
+  location, inventory count, and activity.
+- **Inventaires** — inventory jobs with lifecycle state (Nouveau / En cours /
+  Fermé), a responsible user, and a note about the file-based (SQLite + JSON)
+  import/export sync for offline mobile stations.
 
 ## Tech
 

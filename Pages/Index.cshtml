@@ -1,20 +1,20 @@
 @page
 @model IndexModel
 @{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Accueil";
     ViewData["Active"] = "home";
 }
 
 <div class="page-head">
     <div>
-        <h1>Welcome back, Jordan</h1>
-        <p class="page-sub">Here's what's happening across your inventory today.</p>
+        <h1>Bon retour, Jean-Philippe</h1>
+        <p class="page-sub">Voici l'activité de vos inventaires aujourd'hui.</p>
     </div>
     <div class="page-actions">
-        <button class="btn btn-ghost">Export</button>
+        <button class="btn btn-ghost">Exporter</button>
         <button class="btn btn-primary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 0 1 1-1h2"/><path d="M17 4h2a1 1 0 0 1 1 1v2"/><path d="M20 17v2a1 1 0 0 1-1 1h-2"/><path d="M7 20H5a1 1 0 0 1-1-1v-2"/><path d="M4 12h16"/></svg>
-            Start scanning
+            Démarrer un scan
         </button>
     </div>
 </div>
@@ -40,23 +40,27 @@
 <section class="grid-2">
     <div class="card">
         <div class="card-head">
-            <h2>Recent scans</h2>
-            <a class="link" href="/Inventory">View all</a>
+            <h2>Inventaires en cours</h2>
+            <a class="link" href="/Inventory">Voir tout</a>
         </div>
         <div class="table-wrap">
             <table class="table">
                 <thead>
-                    <tr><th>Item</th><th>SKU</th><th>Client</th><th>Time</th><th>Status</th></tr>
+                    <tr><th>Client</th><th>Localisation</th><th>État</th><th>Avancement</th></tr>
                 </thead>
                 <tbody>
-                    @foreach (var r in Model.RecentScans)
+                    @foreach (var i in Model.EnCours)
                     {
                         <tr>
-                            <td class="strong">@r.Item</td>
-                            <td class="mono muted">@r.Sku</td>
-                            <td>@r.Client</td>
-                            <td class="muted">@r.Time</td>
-                            <td><span class="badge tone-@r.Tone">@r.Status</span></td>
+                            <td class="strong">@i.Client</td>
+                            <td class="muted">@i.Ville</td>
+                            <td><span class="badge tone-@i.Tone">@i.Etat</span></td>
+                            <td>
+                                <div class="meter-row">
+                                    <div class="meter"><span class="meter-fill tone-blue" style="width:@(i.Avancement)%"></span></div>
+                                    <span class="muted small">@i.Avancement %</span>
+                                </div>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -66,16 +70,16 @@
 
     <div class="card">
         <div class="card-head">
-            <h2>Scans this week</h2>
-            <span class="pill">7 days</span>
+            <h2>Scans cette semaine</h2>
+            <span class="pill">7 jours</span>
         </div>
         <div class="chart">
-            @foreach (var b in Model.Week)
+            @foreach (var b in Model.Semaine)
             {
-                var h = (int)Math.Round(b.Value * 100.0 / Model.WeekMax);
+                var h = (int)Math.Round(b.Valeur * 100.0 / Model.SemaineMax);
                 <div class="chart-col">
-                    <div class="bar" style="height:@(h)%" title="@b.Value scans"></div>
-                    <span class="chart-x">@b.Day</span>
+                    <div class="bar" style="height:@(h)%" title="@b.Valeur scans"></div>
+                    <span class="chart-x">@b.Jour</span>
                 </div>
             }
         </div>
@@ -84,27 +88,24 @@
 
 <section class="card">
     <div class="card-head">
-        <h2>Low stock alerts</h2>
-        <a class="link" href="/Inventory">Manage</a>
+        <h2>Derniers scans</h2>
+        <a class="link" href="/Inventory">Voir tout</a>
     </div>
     <div class="table-wrap">
         <table class="table">
             <thead>
-                <tr><th>Item</th><th>Client</th><th>On hand</th><th>Reorder at</th><th>Level</th></tr>
+                <tr><th>Produit</th><th>Code</th><th>Client</th><th>Section</th><th>Qté</th><th>Heure</th></tr>
             </thead>
             <tbody>
-                @foreach (var l in Model.LowStockItems)
+                @foreach (var r in Model.DerniersScans)
                 {
-                    var pct = Math.Min(100, (int)Math.Round(l.Qty * 100.0 / Math.Max(1, l.Reorder)));
-                    var tone = l.Qty == 0 ? "red" : "amber";
                     <tr>
-                        <td class="strong">@l.Item</td>
-                        <td>@l.Client</td>
-                        <td>@l.Qty</td>
-                        <td class="muted">@l.Reorder</td>
-                        <td>
-                            <div class="meter"><span class="meter-fill tone-@tone" style="width:@(pct)%"></span></div>
-                        </td>
+                        <td class="strong">@r.Produit</td>
+                        <td class="mono muted">@r.Code</td>
+                        <td>@r.Client</td>
+                        <td><span class="loc">@r.Section</span></td>
+                        <td class="strong">@r.Qte.ToString("N0")</td>
+                        <td class="muted">@r.Heure</td>
                     </tr>
                 }
             </tbody>

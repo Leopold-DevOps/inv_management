@@ -1,24 +1,36 @@
 @page
 @model InventoryModel
 @{
-    ViewData["Title"] = "Inventory";
+    ViewData["Title"] = "Inventaires";
     ViewData["Active"] = "inventory";
 }
 
 <div class="page-head">
     <div>
-        <h1>Inventory</h1>
-        <p class="page-sub">@Model.Items.Count items · @Model.Total.ToString("N0") units on hand · @Model.LowOrOut need attention</p>
+        <h1>Inventaires</h1>
+        <p class="page-sub">@Model.Inventaires.Count au total · @Model.EnCoursCount en cours · @Model.NouveauxCount nouveau(x)</p>
     </div>
     <div class="page-actions">
         <button class="btn btn-ghost">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-            Add item
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg>
+            Importer
+        </button>
+        <button class="btn btn-ghost">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3"/><path d="m7 8 5-5 5 5"/><path d="M5 21h14"/></svg>
+            Exporter
         </button>
         <button class="btn btn-primary">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V5a1 1 0 0 1 1-1h2"/><path d="M17 4h2a1 1 0 0 1 1 1v2"/><path d="M20 17v2a1 1 0 0 1-1 1h-2"/><path d="M7 20H5a1 1 0 0 1-1-1v-2"/><path d="M4 12h16"/></svg>
-            Scan item
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            Nouvel inventaire
         </button>
+    </div>
+</div>
+
+<div class="banner">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Z"/></svg>
+    <div>
+        <strong>Synchronisation par fichiers</strong> — exportez un fichier SQLite et un fichier JSON clients
+        vers un dossier pour les postes mobiles, puis réimportez les scans (aucune connexion requise).
     </div>
 </div>
 
@@ -26,36 +38,36 @@
     <div class="toolbar">
         <div class="search search-inline">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-            <input type="text" placeholder="Search by name, SKU or barcode…" aria-label="Search inventory" />
+            <input type="text" placeholder="Rechercher par client ou numéro…" aria-label="Rechercher un inventaire" />
         </div>
         <div class="filter-pills">
-            <button class="filter active">All</button>
-            <button class="filter">In stock</button>
-            <button class="filter">Low stock</button>
-            <button class="filter">Out of stock</button>
+            <button class="filter active">Tous</button>
+            <button class="filter">Nouveaux</button>
+            <button class="filter">En cours</button>
+            <button class="filter">Fermés</button>
         </div>
     </div>
 
     <div class="table-wrap">
         <table class="table">
             <thead>
-                <tr><th>Item</th><th>Barcode</th><th>Client</th><th>Qty</th><th>Location</th><th>Status</th></tr>
+                <tr><th>Inventaire</th><th>Localisation</th><th>Période</th><th>Articles</th><th>Responsable</th><th>État</th></tr>
             </thead>
             <tbody>
-                @foreach (var i in Model.Items)
+                @foreach (var i in Model.Inventaires)
                 {
                     <tr>
                         <td>
                             <div class="cell-stack">
-                                <span class="strong">@i.Name</span>
-                                <span class="mono muted small">@i.Sku</span>
+                                <span class="strong">@i.Client</span>
+                                <span class="mono muted small">@i.Ref</span>
                             </div>
                         </td>
-                        <td class="mono muted">@i.Barcode</td>
-                        <td>@i.Client</td>
-                        <td class="strong">@i.Qty.ToString("N0")</td>
-                        <td><span class="loc">@i.Location</span></td>
-                        <td><span class="badge tone-@i.Tone">@i.Status</span></td>
+                        <td>@i.Ville, @i.Province</td>
+                        <td class="muted">@i.Periode</td>
+                        <td class="strong">@i.Articles.ToString("N0")</td>
+                        <td>@i.Responsable</td>
+                        <td><span class="badge tone-@i.Tone">@i.Etat</span></td>
                     </tr>
                 }
             </tbody>

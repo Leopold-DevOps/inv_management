@@ -4,18 +4,18 @@ namespace DBSI.Pages;
 
 public class ClientsModel : PageModel
 {
-    public record Client(string Name, string Contact, string Email, int Items, string Status, string LastActivity);
+    public record Client(string Nom, string Contact, string Courriel, string Ville, string Province, int Inventaires, string DerniereActivite, string Etat);
 
     public List<Client> Clients { get; } = new()
     {
-        new("Hartwell Trades", "Mark Hartwell", "mark@hartwelltrades.com", 642, "Active", "2 min ago"),
-        new("Northside Build Co.", "Priya Nair", "priya@northsidebuild.com", 318, "Active", "11 min ago"),
-        new("Coastal Interiors", "Dana Lowe", "dana@coastalinteriors.co", 205, "Active", "41 min ago"),
-        new("Meridian Electrical", "Sam Okafor", "sam@meridianelec.com", 489, "Active", "1 hr ago"),
-        new("Brightline Plumbing", "Erin Walsh", "erin@brightlineplumb.com", 134, "Inactive", "6 days ago"),
-        new("Summit Roofing", "Leo Marsh", "leo@summitroofing.com", 271, "Active", "Yesterday"),
-        new("Vantage Joinery", "Nadia Khan", "nadia@vantagejoinery.com", 96, "Inactive", "3 weeks ago"),
+        new("Quincaillerie Bélanger", "Marc Bélanger", "marc@quincbelanger.ca", "Québec", "QC", 8, "il y a 2 min", "Actif"),
+        new("Construction Nord-Côte", "Priya Nair", "priya@nordcote.ca", "Lévis", "QC", 5, "il y a 11 min", "Actif"),
+        new("Décor Côtier", "Danielle Lortie", "danielle@decorcotier.ca", "Montréal", "QC", 4, "il y a 41 min", "Actif"),
+        new("Électrique Méridien", "Samuel Ouellet", "samuel@meridien.ca", "Laval", "QC", 6, "il y a 1 h", "Actif"),
+        new("Plomberie Rivard", "Erika Rivard", "erika@plomberierivard.ca", "Gatineau", "QC", 3, "il y a 6 jours", "Inactif"),
+        new("Toiture Sommet", "Léo Marchand", "leo@toituresommet.ca", "Sherbrooke", "QC", 2, "Hier", "Actif"),
+        new("Menuiserie Vantage", "Nadia Caron", "nadia@vantage.ca", "Trois-Rivières", "QC", 1, "il y a 3 semaines", "Inactif"),
     };
 
-    public int ActiveCount => Clients.Count(c => c.Status == "Active");
+    public int ActifsCount => Clients.Count(c => c.Etat == "Actif");
 }

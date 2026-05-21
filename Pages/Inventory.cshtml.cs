@@ -4,22 +4,19 @@ namespace DBSI.Pages;
 
 public class InventoryModel : PageModel
 {
-    public record Item(string Name, string Sku, string Barcode, string Client, int Qty, string Location, string Status, string Tone);
+    public record Inventaire(string Ref, string Client, string Ville, string Province, string Periode, int Articles, string Responsable, string Etat, string Tone);
 
-    public List<Item> Items { get; } = new()
+    public List<Inventaire> Inventaires { get; } = new()
     {
-        new("Cordless Drill 18V", "DRL-018-BK", "8901234500017", "Hartwell Trades", 64, "A1-03", "In stock", "green"),
-        new("Galvanized Screws 50mm", "FST-GS-050", "8901234500024", "Hartwell Trades", 1240, "A2-11", "In stock", "green"),
-        new("Safety Goggles (Clear)", "PPE-GG-CLR", "8901234500031", "Northside Build Co.", 12, "B1-07", "Low stock", "amber"),
-        new("Paint Roller Kit", "PNT-RK-09", "8901234500048", "Coastal Interiors", 0, "C3-02", "Out of stock", "red"),
-        new("LED Work Light", "LGT-WL-22", "8901234500055", "Meridian Electrical", 88, "B2-04", "In stock", "green"),
-        new("Masking Tape 24mm", "ADH-MT-24", "8901234500062", "Coastal Interiors", 8, "C1-09", "Low stock", "amber"),
-        new("Cable Ties 200mm", "ELC-CT-200", "8901234500079", "Meridian Electrical", 15, "B2-12", "Low stock", "amber"),
-        new("Heavy Duty Gloves", "PPE-GL-HD", "8901234500086", "Summit Roofing", 156, "B1-02", "In stock", "green"),
-        new("Sealant Cartridge", "ADH-SC-310", "8901234500093", "Brightline Plumbing", 47, "C2-05", "In stock", "green"),
-        new("Tape Measure 8m", "MSR-TM-08", "8901234500109", "Vantage Joinery", 33, "A3-01", "In stock", "green"),
+        new("INV-1042", "Quincaillerie Bélanger", "Québec", "QC", "19 mai – en cours", 642, "J. Gravel", "En cours", "green"),
+        new("INV-1041", "Construction Nord-Côte", "Lévis", "QC", "18 mai – en cours", 318, "M. Tremblay", "En cours", "green"),
+        new("INV-1040", "Décor Côtier", "Montréal", "QC", "21 mai – en cours", 12, "J. Gravel", "Nouveau", "blue"),
+        new("INV-1039", "Électrique Méridien", "Laval", "QC", "17 mai – en cours", 489, "M. Tremblay", "En cours", "green"),
+        new("INV-1038", "Toiture Sommet", "Sherbrooke", "QC", "12 mai – 16 mai", 271, "J. Gravel", "Fermé", "gray"),
+        new("INV-1037", "Plomberie Rivard", "Gatineau", "QC", "08 mai – 10 mai", 134, "M. Tremblay", "Fermé", "gray"),
+        new("INV-1036", "Menuiserie Vantage", "Trois-Rivières", "QC", "02 mai – 05 mai", 96, "J. Gravel", "Fermé", "gray"),
     };
 
-    public int Total => Items.Sum(i => i.Qty);
-    public int LowOrOut => Items.Count(i => i.Tone is "amber" or "red");
+    public int EnCoursCount => Inventaires.Count(i => i.Etat == "En cours");
+    public int NouveauxCount => Inventaires.Count(i => i.Etat == "Nouveau");
 }

@@ -4,9 +4,9 @@
     ViewData["Title"] = "Clients";
     ViewData["Active"] = "clients";
 
-    string Initials(string name)
+    string Initiales(string nom)
     {
-        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        var parts = nom.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length == 0) return "?";
         return parts.Length == 1
             ? parts[0][..1].ToUpper()
@@ -17,13 +17,13 @@
 <div class="page-head">
     <div>
         <h1>Clients</h1>
-        <p class="page-sub">@Model.Clients.Count total · @Model.ActiveCount active</p>
+        <p class="page-sub">@Model.Clients.Count au total · @Model.ActifsCount actifs</p>
     </div>
     <div class="page-actions">
-        <button class="btn btn-ghost">Import</button>
+        <button class="btn btn-ghost">Importer</button>
         <button class="btn btn-primary">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-            Add client
+            Ajouter un client
         </button>
     </div>
 </div>
@@ -32,42 +32,43 @@
     <div class="toolbar">
         <div class="search search-inline">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-            <input type="text" placeholder="Search clients…" aria-label="Search clients" />
+            <input type="text" placeholder="Rechercher un client…" aria-label="Rechercher un client" />
         </div>
         <div class="filter-pills">
-            <button class="filter active">All</button>
-            <button class="filter">Active</button>
-            <button class="filter">Inactive</button>
+            <button class="filter active">Tous</button>
+            <button class="filter">Actifs</button>
+            <button class="filter">Inactifs</button>
         </div>
     </div>
 
     <div class="table-wrap">
         <table class="table">
             <thead>
-                <tr><th>Client</th><th>Contact</th><th>Items tracked</th><th>Status</th><th>Last activity</th><th></th></tr>
+                <tr><th>Client</th><th>Contact</th><th>Localisation</th><th>Inventaires</th><th>État</th><th>Dernière activité</th><th></th></tr>
             </thead>
             <tbody>
                 @foreach (var c in Model.Clients)
                 {
-                    var tone = c.Status == "Active" ? "green" : "gray";
+                    var tone = c.Etat == "Actif" ? "green" : "gray";
                     <tr>
                         <td>
                             <div class="cell-user">
-                                <span class="avatar avatar-sm">@Initials(c.Name)</span>
-                                <span class="strong">@c.Name</span>
+                                <span class="avatar avatar-sm">@Initiales(c.Nom)</span>
+                                <span class="strong">@c.Nom</span>
                             </div>
                         </td>
                         <td>
                             <div class="cell-stack">
                                 <span>@c.Contact</span>
-                                <span class="muted small">@c.Email</span>
+                                <span class="muted small">@c.Courriel</span>
                             </div>
                         </td>
-                        <td class="strong">@c.Items.ToString("N0")</td>
-                        <td><span class="badge tone-@tone">@c.Status</span></td>
-                        <td class="muted">@c.LastActivity</td>
+                        <td>@c.Ville, @c.Province</td>
+                        <td class="strong">@c.Inventaires</td>
+                        <td><span class="badge tone-@tone">@c.Etat</span></td>
+                        <td class="muted">@c.DerniereActivite</td>
                         <td class="cell-actions">
-                            <button class="icon-btn sm" aria-label="More">
+                            <button class="icon-btn sm" aria-label="Plus">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
                             </button>
                         </td>

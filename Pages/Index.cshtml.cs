@@ -5,40 +5,40 @@ namespace DBSI.Pages;
 public class IndexModel : PageModel
 {
     public record Stat(string Label, string Value, string Trend, bool TrendUp, string Tone);
-    public record Scan(string Item, string Sku, string Client, string Time, string Status, string Tone);
-    public record LowStock(string Item, string Client, int Qty, int Reorder);
-    public record Bar(string Day, int Value);
+    public record Scan(string Produit, string Code, string Client, string Section, int Qte, string Heure);
+    public record InvSummary(string Client, string Ville, string Etat, string Tone, int Avancement);
+    public record Bar(string Jour, int Valeur);
 
     public List<Stat> Stats { get; } = new()
     {
-        new("Items tracked", "4,182", "+3.2%", true, "blue"),
-        new("Active clients", "27", "+2", true, "green"),
-        new("Low stock alerts", "9", "-4", false, "amber"),
-        new("Scans today", "318", "+12%", true, "blue"),
+        new("Inventaires en cours", "6", "+2", true, "blue"),
+        new("Nouveaux inventaires", "3", "+1", true, "amber"),
+        new("Clients actifs", "27", "+2", true, "green"),
+        new("Scans aujourd'hui", "318", "+12 %", true, "blue"),
     };
 
-    public List<Scan> RecentScans { get; } = new()
+    public List<InvSummary> EnCours { get; } = new()
     {
-        new("Cordless Drill 18V", "DRL-018-BK", "Hartwell Trades", "2 min ago", "In stock", "green"),
-        new("Safety Goggles (Clear)", "PPE-GG-CLR", "Northside Build Co.", "11 min ago", "Low stock", "amber"),
-        new("Galvanized Screws 50mm", "FST-GS-050", "Hartwell Trades", "26 min ago", "In stock", "green"),
-        new("Paint Roller Kit", "PNT-RK-09", "Coastal Interiors", "41 min ago", "Out of stock", "red"),
-        new("LED Work Light", "LGT-WL-22", "Meridian Electrical", "1 hr ago", "In stock", "green"),
+        new("Quincaillerie Bélanger", "Québec, QC", "En cours", "green", 72),
+        new("Construction Nord-Côte", "Lévis, QC", "En cours", "green", 45),
+        new("Décor Côtier", "Montréal, QC", "Nouveau", "blue", 5),
+        new("Électrique Méridien", "Laval, QC", "En cours", "green", 88),
     };
 
-    public List<LowStock> LowStockItems { get; } = new()
+    public List<Scan> DerniersScans { get; } = new()
     {
-        new("Safety Goggles (Clear)", "Northside Build Co.", 12, 50),
-        new("Paint Roller Kit", "Coastal Interiors", 0, 25),
-        new("Masking Tape 24mm", "Coastal Interiors", 8, 40),
-        new("Cable Ties 200mm", "Meridian Electrical", 15, 60),
+        new("Perceuse sans fil 18V", "8901234500017", "Quincaillerie Bélanger", "A-03", 12, "il y a 2 min"),
+        new("Lunettes de sécurité", "8901234500031", "Construction Nord-Côte", "B-07", 48, "il y a 11 min"),
+        new("Vis galvanisées 50 mm", "8901234500024", "Quincaillerie Bélanger", "A-11", 1240, "il y a 26 min"),
+        new("Ensemble rouleau à peinture", "8901234500048", "Décor Côtier", "C-02", 24, "il y a 41 min"),
+        new("Lampe de travail DEL", "8901234500055", "Électrique Méridien", "B-04", 60, "il y a 1 h"),
     };
 
-    public List<Bar> Week { get; } = new()
+    public List<Bar> Semaine { get; } = new()
     {
-        new("Mon", 210), new("Tue", 280), new("Wed", 240),
-        new("Thu", 330), new("Fri", 318), new("Sat", 120), new("Sun", 60),
+        new("lun", 210), new("mar", 280), new("mer", 240),
+        new("jeu", 330), new("ven", 318), new("sam", 120), new("dim", 60),
     };
 
-    public int WeekMax => Week.Max(b => b.Value);
+    public int SemaineMax => Semaine.Max(b => b.Valeur);
 }
